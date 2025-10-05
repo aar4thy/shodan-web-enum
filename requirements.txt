@@ -1,4 +1,6 @@
-shodan>=1.29.0
-pandas>=2.1.0
-tk>=0.1.0
+shodan>=1.31.0
+pandas>=2.2.3
+
+
+
 
