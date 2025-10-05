@@ -1,0 +1,31 @@
+# Core / identity
+hostname:"{target}"
+ssl.cert.subject.cn:"{target}" OR ssl.cert.alt_name:"{target}" OR ssl.cert.alt_name:"*.{target}"
+ip:"{target}"
+
+# Admin / login / CMS discovery
+hostname:"{target}" http.title:"login" OR http.html:"/login" OR http.html:"/admin"
+hostname:"{target}" http.html:"wp-login.php" OR http.html:"/wp-admin" OR product:"WordPress"
+hostname:"{target}" http.html:"/administrator" OR product:"Joomla"
+hostname:"{target}" product:"Drupal" OR http.html:"/user/login"
+
+# Admin title filter (reduce noise)
+hostname:"{target}" http.title:"Administration" AND -http.title:"Login" AND -http.title:"Error"
+
+# Backup / dev files & sensitive strings
+hostname:"{target}" http.html:".git" OR http.html:".env" OR http.html:"wp-config.php"
+hostname:"{target}" http.html:"api_key="
+hostname:"{target}" http.html:"/admin/config.php" AND http.status:200
+
+# Vulnerability / certificate checks
+hostname:"{target}" AND has_vuln:true
+hostname:"{target}" AND ssl.cert.expired:true
+
+# Technology / product discovery (tech stack)
+hostname:"{target}" AND (http.server:"Apache" OR http.server:"nginx" OR http.server:"Microsoft-IIS" OR product:"openresty")
+
+# Component / library discovery (example)
+hostname:"{target}" http.component:"jQuery" AND http.component_version:"1.7"
+
+
+
